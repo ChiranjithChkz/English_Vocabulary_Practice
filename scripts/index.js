@@ -35,7 +35,7 @@ const loadLevelWord = (id) => {
 
     manageSpinner(true);
 
-    const url = `https://openapi.programming-hero.com/api/level/${id}`;
+    const url = `https://openapi.programming-hero.com/api/level/${id}`; // dynamic hobe
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
@@ -126,7 +126,9 @@ const displayLevelWord = (words) => {
     words.forEach((word) => {
         console.log(word);
         const card = document.createElement("div")
-        card.innerHTML = `
+
+        // dynamic card------------------------>
+        card.innerHTML = ` 
           <div class="bg-white rounded-xl shadow-sm text-center py-15 px-5 space-y-4">
               <h2 class="font-bold text-xl">${word.word ? word.word : "শব্দ পওয়া যায়নি"}</h2>
               <p class="font-semibold">Meaning / pronunciation</p>
@@ -139,7 +141,7 @@ const displayLevelWord = (words) => {
               </div>
           </div>
         `;
-        wordContainer.appendChild(card);
+        wordContainer.appendChild(card);  // to show in monitor
     })
     manageSpinner(false);
 }
@@ -164,3 +166,25 @@ const displayLessons = (lessons) => {
 }
 
 loadLessons();
+
+
+// added search function-------->
+document.getElementById("btn-search").addEventListener("click", ()=>{
+
+    removeActive();
+    const input = document.getElementById("input-search");
+    const searchValue = input.value.trim().toLowerCase();
+    console.log(searchValue);
+
+    fetch("https://openapi.programming-hero.com/api/words/all")
+    .then((res) => res.json())
+    .then((data) =>  {
+        const allWords = data.data;
+        console.log(allWords);
+        const filterWords = allWords.filter((word) =>
+        word.word.toLowerCase().includes(searchValue));
+
+
+      displayLevelWord(filterWords);
+    });
+})
