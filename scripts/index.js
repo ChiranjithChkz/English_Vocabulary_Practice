@@ -32,15 +32,19 @@ const removeActive = () => {
 };
 
 const loadLevelWord = (id) => {
+
     manageSpinner(true);
+
     const url = `https://openapi.programming-hero.com/api/level/${id}`;
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
+
+            removeActive()  // removing all active class
+
             const clickBtn = document.getElementById(`lesson-btn-${id}`);
-            // console.log(clickBtn);
-            removeActive()
-            clickBtn.classList.add("active");
+            clickBtn.classList.add("active"); // add active class
+
             displayLevelWord(data.data)
         })
 }
@@ -147,8 +151,8 @@ const displayLessons = (lessons) => {
     const levelContainer = document.getElementById("level-container")
     levelContainer.innerHTML = "";
 
-    //2.get into every lessons
-    for (let lesson of lessons) {
+    //2.get into every lessons++
+    for (let lesson of lessons) { // looping
         //3.create element
         const btnDiv = document.createElement("div");
         btnDiv.innerHTML = `<button id="lesson-btn-${lesson.level_no}"    onclick = "loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary lesson-btn "><i class="fa-solid fa-book-open"></i> Lesson - ${lesson.level_no} 
